@@ -21,7 +21,7 @@
  * @package   Varnish
  * @category  Varnish_Connector
  * @author    Smile <solution.magento@smile.fr>
- * @copyright 2016 Smile
+ * @copyright 2018 Smile
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 */
 class Varnish_Connector_Connection_Varnish5_Socket extends Varnish_Connector_Connection_Varnish4_Socket
