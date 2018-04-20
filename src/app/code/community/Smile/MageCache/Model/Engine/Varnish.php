@@ -253,4 +253,14 @@ class Smile_MageCache_Model_Engine_Varnish extends Smile_MageCache_Model_Engine_
 
         $response->setHeader(self::CACHE_HEADER_NAME, $headerValue);
     }
+
+    /**
+     * Returns the list of servers that couldn't be reached at init.
+     *
+     * @return array
+     */
+    public function getServersInError()
+    {
+        return $this->_getConnector()->getServersInError();
+    }
 }

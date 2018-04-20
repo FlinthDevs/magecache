@@ -21,7 +21,7 @@
  * @package   Varnish
  * @category  Varnish_Connector
  * @author    Smile <solution.magento@smile.fr>
- * @copyright 2013 Smile
+ * @copyright 2018 Smile
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Varnish_Connector
@@ -46,6 +46,13 @@ class Varnish_Connector
      * @var array
      */
     protected static $_logger = null;
+
+    /**
+     * List of servers for which connection failed.
+     *
+     * @var array
+     */
+    protected $_serversInError = array();
 
     /**
      * Set connector logger
@@ -80,14 +87,23 @@ class Varnish_Connector
     public function init($servers, $debug = null)
     {
         $connections = array();
+
         foreach ($servers as $server) {
-            $connection = $this->_initConnection($server);
-            if (!is_null($debug)) {
-                $connection->setDebug($debug);
+            try {
+                $connection = $this->_initConnection($server);
+
+                if (!is_null($debug)) {
+                    $connection->setDebug($debug);
+                }
+
+                $connections[] = $connection;
+            } catch(Exception $e){
+                $this->_serversInError[] = array('server' => $server, 'exception' => $e);
             }
-            $connections[] = $connection;
         }
+
         $this->_connections = $connections;
+
         return true;
     }
 
@@ -164,5 +180,15 @@ class Varnish_Connector
         foreach ($this->_connections as $connection) {
             $connection->purgeByUrl($pattern);
         }
+    }
+
+    /**
+     * Returns the list of servers that couldn't be reached.
+     *
+     * @return array
+     */
+    public function getServersInError()
+    {
+        return $this->_serversInError;
     }
 }
