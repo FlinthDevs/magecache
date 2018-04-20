@@ -35,6 +35,10 @@ class Smile_MageCache_Model_Engine_Varnish_Connector_Connection_Mode
     {
         return array(
             array(
+                'value' => 'varnish5_socket',
+                'label' => Mage::helper('smile_magecache')->__('Varnish5: administrator socket')
+            ),
+            array(
                 'value' => 'varnish4_socket',
                 'label' => Mage::helper('smile_magecache')->__('Varnish4: administrator socket')
             ),
